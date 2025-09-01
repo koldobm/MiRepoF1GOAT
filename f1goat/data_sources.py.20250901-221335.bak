@@ -1,0 +1,312 @@
+from __future__ import annotations
+from pathlib import Path
+from datetime import date
+from typing import Tuple, Optional, Literal
+import os, time, json, urllib.request
+
+import pandas as pd
+import fastf1 as ff1
+
+from .compute import compute_gp_points_f1goat, compute_csi
+from .storage import upsert_event, upsert_driver_results, upsert_team_results
+from .normalize import canonical_team, canonical_driver_broadcast, canonical_driver_from_ergast
+
+# ---------- Config ----------
+ff1.Cache.enable_cache(Path("data/fastf1_cache"))
+
+ERGAST_BASE = os.getenv("F1GOAT_ERGAST_BASE", "http://ergast.com/api/f1/").rstrip("/") + "/"
+ERGAST_CSV  = os.getenv("F1GOAT_ERGAST_CSV", "").strip()
+
+def _team_ops(team:str) -> float: return 8.0
+def _team_rel(team:str) -> float: return 8.0
+def _team_dev(team:str) -> float: return 8.0
+
+def _official_name(season:int, official_or_event:str) -> str:
+    return f"{season} — {official_or_event}"
+
+def _is_testing_row(r) -> bool:
+    name = str(r.get("OfficialEventName") or r.get("EventName") or "").lower()
+    fmt  = str(r.get("EventFormat", "")).lower()
+    return ("testing" in name) or ("test" in name) or ("testing" in fmt) or ("test" in fmt)
+
+def register_schedule(season:int) -> int:
+    sched = ff1.get_event_schedule(season)
+    cnt = 0
+    for _, r in sched.sort_values("RoundNumber").iterrows():
+        try:
+            rnd = int(r["RoundNumber"])
+        except Exception:
+            continue
+        if rnd <= 0 or _is_testing_row(r):
+            continue
+        official = r.get("OfficialEventName") or r.get("EventName") or f"GP {season} R{rnd}"
+        evdate = pd.to_datetime(r.get("EventDate")).date()
+        upsert_event(season, rnd, _official_name(season, official), evdate)
+        cnt += 1
+    return cnt
+
+# ---------- HTTP helper ----------
+def _http_json(url: str, retries: int = 3) -> dict:
+    last_exc = None
+    for _ in range(retries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent":"F1GOAT/1.0 (+local)","Accept":"application/json"})
+            with urllib.request.urlopen(req, timeout=25) as resp:
+                raw = resp.read()
+            return json.loads(raw.decode("utf-8"))
+        except Exception as e:
+            last_exc = e
+            time.sleep(0.4)
+    raise RuntimeError(f"HTTP fail for {url}: {last_exc}")
+
+# ---------- Ergast online ----------
+def _ergast_results_by_round(season:int, rnd:int) -> pd.DataFrame:
+    url = f"{ERGAST_BASE}{season}/{rnd}/results.json?limit=200"
+    data = _http_json(url)
+    races = data.get("MRData", {}).get("RaceTable", {}).get("Races", [])
+    if not races:
+        return pd.DataFrame()
+    res = races[0].get("Results", [])
+    rows = []
+    for r in res:
+        drv = r.get("Driver", {}) or {}
+        cons = r.get("Constructor", {}) or {}
+        piloto = canonical_driver_from_ergast(drv.get("givenName",""), drv.get("familyName",""), drv.get("code"))
+        team = canonical_team(cons.get("name") or "")
+        grid = r.get("grid"); pos = r.get("position")
+        try: grid = int(grid) if grid not in (None, "", "0") else None
+        except: grid = None
+        try: pos = int(pos) if pos not in (None, "", "0") else None
+        except: pos = None
+        rows.append({"Piloto":piloto,"Equipo":team,"Parrilla":grid,"Final":pos})
+    return pd.DataFrame(rows)
+
+# ---------- Ergast offline CSV ----------
+def _ergast_csv_results_by_round(season:int, rnd:int) -> pd.DataFrame:
+    if not ERGAST_CSV:
+        return pd.DataFrame()
+    p = Path(ERGAST_CSV)
+    if not p.exists():
+        return pd.DataFrame()
+    df = pd.read_csv(p)
+    cols = {c.lower(): c for c in df.columns}
+    def col(*cands):
+        for c in cands:
+            if c.lower() in cols: return cols[c.lower()]
+        return None
+    c_season = col("season","Year")
+    c_round  = col("round","Race","Rnd")
+    c_gname  = col("givenName","GivenName")
+    c_fname  = col("familyName","FamilyName","surname")
+    c_code   = col("code","DriverCode","DrvCode")
+    c_driver = col("driver","Driver","DriverName","Driver Full Name")
+    c_team   = col("constructor","Constructor","Team","ConstructorName","TeamName")
+    c_grid   = col("grid","GridPosition")
+    c_pos    = col("position","Position","ResultPosition","Final")
+    if not c_season or not c_round or (not c_driver and not (c_gname and c_fname)) or not c_team:
+        return pd.DataFrame()
+    sub = df[(df[c_season]==season) & (df[c_round]==rnd)].copy()
+    if sub.empty:
+        return pd.DataFrame()
+    if c_driver:
+        sub["Piloto"] = sub[c_driver].astype(str)
+    else:
+        sub["Piloto"] = (sub[c_gname].astype(str).str.strip() + " " + sub[c_fname].astype(str).str.strip())
+    sub["Piloto"] = sub["Piloto"].apply(lambda x: x.strip())
+    sub["Piloto"] = sub["Piloto"].apply(lambda x: canonical_driver_from_ergast(*(x.split(" ")[:1]+[" ".join(x.split(" ")[1:])]), None) if isinstance(x,str) else x)
+    sub["Equipo"] = sub[c_team].astype(str).apply(canonical_team)
+    sub["Parrilla"] = pd.to_numeric(sub[c_grid], errors="coerce")
+    sub["Final"]    = pd.to_numeric(sub[c_pos], errors="coerce")
+    return sub[["Piloto","Equipo","Parrilla","Final"]].reset_index(drop=True)
+
+# ---------- Log ----------
+def _log_ingest(season:int, rnd:int, official:str, source:str, n_dr:int, n_tm:int, status:str, message:str=""):
+    Path("data").mkdir(parents=True, exist_ok=True)
+    logp = Path("data/ingest_log.csv")
+    header = not logp.exists()
+    with logp.open("a", encoding="utf-8") as f:
+        if header:
+            f.write("season,round,official,source,drivers,teams,status,message\n")
+        official2 = (official or "").replace(",", " ")
+        message2  = (message or "").replace("\n", " ").replace(",", " ")
+        f.write(f"{season},{rnd},{official2},{source},{n_dr},{n_tm},{status},{message2}\n")
+
+# ---------- Post-proceso (puntos) ----------
+def _compute_from_driver_df(dr: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    rows = []
+    for _, r in dr.iterrows():
+        grid = r["Parrilla"]; final = r["Final"]
+        rr = None if pd.isna(final) else max(0.0, 10.0 - 0.35*(final-1))
+        qr = None if pd.isna(grid)  else max(0.0, 10.0 - 0.30*(grid-1))
+        td = None if pd.isna(final) else max(0.0,  9.0 - 0.25*(final-1))
+        oq = None; wa = None; pf = 0.0
+        points = compute_gp_points_f1goat(rr, qr, td, oq, wa, pf)
+        csi = compute_csi(rr, qr, td, oq, wa, car_strength=1.0)
+        rows.append({"Piloto":r["Piloto"],"Equipo":r["Equipo"],"Parrilla":grid,"Final":final,
+                     "CSI":csi,"RR":rr,"QR":qr,"TD":td,"OQ":oq,"WA":wa,"PF":pf,"Puntos F1GOAT (GP)":points})
+    drivers = pd.DataFrame(rows)
+    teams = (drivers.groupby("Equipo", as_index=False)
+             .agg({"Parrilla":"mean","Final":"mean","CSI":"mean"})
+             .rename(columns={"Parrilla":"Parrilla media","Final":"Final media","CSI":"CSI medio"}))
+    if not teams.empty:
+        teams["Ops"] = teams["Equipo"].map(_team_ops)
+        teams["Rel"] = teams["Equipo"].map(_team_rel)
+        teams["Dev"] = teams["Equipo"].map(_team_dev)
+        teams["Puntos F1GOAT (GP)"] = (0.6*teams["CSI medio"] + 0.2*teams["Ops"] + 0.1*teams["Rel"] + 0.1*teams["Dev"]).round(3)
+    return drivers, teams
+
+def _official_from_schedule(season:int, rnd:int) -> Tuple[str, date]:
+    sched = ff1.get_event_schedule(season)
+    rr = sched.loc[sched["RoundNumber"] == rnd]
+    if not rr.empty:
+        r0 = rr.sort_values("RoundNumber").iloc[0]
+        official = r0.get("OfficialEventName") or r0.get("EventName") or f"GP {season} R{rnd}"
+        evdate = pd.to_datetime(r0.get("EventDate")).date()
+        return _official_name(season, official), evdate
+    return f"{season} — GP R{rnd}", pd.to_datetime(f"{season}-01-01").date()
+
+# ---------- Core fetch ----------
+def fetch_gp(season:int, rnd:int, preference: Literal["auto","ergast","fastf1"]="auto"):
+    # 1) fastf1 directo
+    if preference == "fastf1":
+        try:
+            race = ff1.get_session(season, rnd, "R")
+            race.load(laps=False, telemetry=False, weather=False)
+            ev = race.event
+            official = getattr(ev, "OfficialEventName", None) or getattr(ev, "EventName", f"GP {season} R{rnd}")
+            official_name = _official_name(season, official)
+            event_date = pd.to_datetime(getattr(ev, "EventDate", race.date)).date()
+            res = race.results
+            if res is None or len(res) == 0:
+                _log_ingest(season, rnd, official_name, "fastf1", 0, 0, "no_results", "fastf1_empty")
+                return (pd.DataFrame(), pd.DataFrame(), official_name, event_date, "none")
+            base = (res[["BroadcastName","TeamName","GridPosition","Position"]]
+                    .rename(columns={"BroadcastName":"Piloto","TeamName":"Equipo","GridPosition":"Parrilla","Position":"Final"}))
+            base["Piloto"] = base["Piloto"].apply(canonical_driver_broadcast)
+            base["Equipo"] = base["Equipo"].apply(canonical_team)
+            drivers, teams = _compute_from_driver_df(base)
+            return drivers, teams, official_name, event_date, "fastf1"
+        except Exception as e:
+            official_name, event_date = _official_from_schedule(season, rnd)
+            _log_ingest(season, rnd, official_name, "fastf1", 0, 0, "error", f"{e}")
+            return (pd.DataFrame(), pd.DataFrame(), official_name, event_date, "none")
+
+    # 2) ergast directo (online) con fallback a CSV offline
+    if preference == "ergast":
+        official_name, event_date = _official_from_schedule(season, rnd)
+        try:
+            dr = _ergast_results_by_round(season, rnd)
+            if not dr.empty:
+                dr["Equipo"] = dr["Equipo"].apply(canonical_team)
+                drivers, teams = _compute_from_driver_df(dr)
+                return drivers, teams, official_name, event_date, "ergast"
+        except Exception as e:
+            _log_ingest(season, rnd, official_name, "ergast", 0, 0, "error", f"{e}")
+        # offline CSV
+        dr = _ergast_csv_results_by_round(season, rnd)
+        if not dr.empty:
+            dr["Equipo"] = dr["Equipo"].apply(canonical_team)
+            drivers, teams = _compute_from_driver_df(dr)
+            _log_ingest(season, rnd, official_name, "ergast_csv", len(drivers), len(teams), "ok", "offline_csv")
+            return drivers, teams, official_name, event_date, "ergast_csv"
+        _log_ingest(season, rnd, official_name, "ergast", 0, 0, "no_results", "ergast_empty")
+        return (pd.DataFrame(), pd.DataFrame(), official_name, event_date, "none")
+
+    # 3) auto: fastf1 → ergast online → csv offline
+    try:
+        race = ff1.get_session(season, rnd, "R")
+        race.load(laps=False, telemetry=False, weather=False)
+        ev = race.event
+        official = getattr(ev, "OfficialEventName", None) or getattr(ev, "EventName", f"GP {season} R{rnd}")
+        official_name = _official_name(season, official)
+        event_date = pd.to_datetime(getattr(ev, "EventDate", race.date)).date()
+        res = race.results
+        if res is not None and len(res) > 0:
+            base = (res[["BroadcastName","TeamName","GridPosition","Position"]]
+                    .rename(columns={"BroadcastName":"Piloto","TeamName":"Equipo","GridPosition":"Parrilla","Position":"Final"}))
+            base["Piloto"] = base["Piloto"].apply(canonical_driver_broadcast)
+            base["Equipo"] = base["Equipo"].apply(canonical_team)
+            drivers, teams = _compute_from_driver_df(base)
+            return drivers, teams, official_name, event_date, "fastf1"
+    except Exception:
+        pass
+
+    official_name, event_date = _official_from_schedule(season, rnd)
+    try:
+        dr = _ergast_results_by_round(season, rnd)
+        if not dr.empty:
+            dr["Equipo"] = dr["Equipo"].apply(canonical_team)
+            drivers, teams = _compute_from_driver_df(dr)
+            return drivers, teams, official_name, event_date, "ergast"
+    except Exception as e:
+        _log_ingest(season, rnd, official_name, "ergast", 0, 0, "error", f"{e}")
+
+    dr = _ergast_csv_results_by_round(season, rnd)
+    if not dr.empty:
+        dr["Equipo"] = dr["Equipo"].apply(canonical_team)
+        drivers, teams = _compute_from_driver_df(dr)
+        _log_ingest(season, rnd, official_name, "ergast_csv", len(drivers), len(teams), "ok", "offline_csv")
+        return drivers, teams, official_name, event_date, "ergast_csv"
+
+    _log_ingest(season, rnd, official_name, "auto", 0, 0, "no_results", "no_source_available")
+    return (pd.DataFrame(), pd.DataFrame(), official_name, event_date, "none")
+
+# ---------- Ingest wrappers ----------
+def ingest_event(season:int, rnd:int, preference: Literal["auto","ergast","fastf1"]="auto") -> bool:
+    if rnd <= 0:
+        return False
+    try:
+        drivers, teams, official, evdate, source = fetch_gp(season, rnd, preference=preference)
+        key = upsert_event(season, rnd, official, evdate)
+        n_dr = len(drivers); n_tm = len(teams)
+        if n_dr > 0:
+            upsert_driver_results(key, drivers)
+        if n_tm > 0:
+            upsert_team_results(key, teams)
+        status = "ok" if (n_dr > 0) else "no_results"
+        _log_ingest(season, rnd, official, source, n_dr, n_tm, status, "")
+        print(f"[F1GOAT] {official} — {source}: drivers={n_dr}, teams={n_tm}")
+        time.sleep(0.25)
+        return n_dr > 0
+    except Exception as e:
+        _log_ingest(season, rnd, f"{season} R{rnd}", "error", 0, 0, "error", str(e))
+        print(f"[F1GOAT] Ingesta fallida {season} R{rnd}: {e}")
+        return False
+
+def ingest_season(season:int, preference: Literal["auto","ergast","fastf1"]="auto") -> int:
+    n_ev = register_schedule(season)
+    ok = 0
+    sched = ff1.get_event_schedule(season).sort_values("RoundNumber")
+    for rnd in sched["RoundNumber"].astype(int).tolist():
+        if rnd <= 0: continue
+        if ingest_event(season, rnd, preference=preference):
+            ok += 1
+    print(f"[F1GOAT] Temporada {season}: eventos(>=1)={n_ev}, con_resultados={ok} (pref={preference})")
+    return ok
+
+def ingest_range(start:int, end:int, preference: Literal["auto","ergast","fastf1"]="auto") -> int:
+    total_ok = 0
+    for y in range(start, end+1):
+        total_ok += ingest_season(y, preference=preference)
+    return total_ok
+
+def ingest_latest(season_hint:int=2025) -> Tuple[int,int,str]:
+    for year in range(season_hint, 1949, -1):
+        try:
+            register_schedule(year)
+        except Exception:
+            pass
+        sched = ff1.get_event_schedule(year).sort_values("EventDate")
+        for rnd in reversed(list(sched["RoundNumber"].astype(int))):
+            if rnd <= 0: continue
+            try:
+                drivers, teams, official, evdate, source = fetch_gp(year, rnd, preference="auto")
+                key = upsert_event(year, rnd, official, evdate)
+                if len(drivers) > 0:
+                    upsert_driver_results(key, drivers)
+                    if len(teams) > 0:
+                        upsert_team_results(key, teams)
+                    return year, rnd, official
+            except Exception:
+                continue
+    raise RuntimeError("No se pudo ingerir ningún GP.")

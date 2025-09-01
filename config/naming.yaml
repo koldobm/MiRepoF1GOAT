@@ -1,0 +1,15 @@
+# Normalización de nombres entre fuentes (FastF1 vs Ergast)
+teams:
+  "Oracle Red Bull Racing": "Red Bull Racing"
+  "Red Bull": "Red Bull Racing"
+  "Scuderia AlphaTauri": "AlphaTauri"
+  "Alpha Tauri": "AlphaTauri"
+  "RB": "Racing Bulls"
+  "Stake F1 Team Kick Sauber": "Sauber"
+  "Kick Sauber": "Sauber"
+  "Alfa Romeo Racing": "Alfa Romeo"
+  "Aston Martin Aramco Cognizant": "Aston Martin"
+  "McLaren F1 Team": "McLaren"
+  "Mercedes-AMG Petronas": "Mercedes"
+  "Haas F1 Team": "Haas F1 Team"
+drivers: {}

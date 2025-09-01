@@ -3289,3 +3289,84 @@ season,round,official,source,drivers,teams,status,message
 2017,20,2017 — Abu Dhabi Grand Prix,ergast,0,0,error,HTTP fail for http://ergast.com/api/f1/2017/20/results.json?limit=200: <urlopen error [Errno 111] Connection refused>
 2017,20,2017 — Abu Dhabi Grand Prix,ergast,0,0,no_results,ergast_empty
 2017,20,2017 — Abu Dhabi Grand Prix,none,0,0,no_results,
+2018,1,2018 — FORMULA 1 2018 ROLEX AUSTRALIAN GRAND PRIX,fastf1,20,10,ok,
+2018,2,2018 — FORMULA 1 2018 GULF AIR BAHRAIN GRAND PRIX,fastf1,20,10,ok,
+2018,3,2018 — FORMULA 1 2018 HEINEKEN CHINESE GRAND PRIX,fastf1,20,10,ok,
+2018,4,2018 — FORMULA 1 2018 AZERBAIJAN GRAND PRIX,fastf1,20,10,ok,
+2018,5,2018 — FORMULA 1 GRAN PREMIO DE ESPAÑA EMIRATES 2018,fastf1,20,10,ok,
+2018,6,2018 — FORMULA 1 GRAND PRIX DE MONACO 2018,fastf1,20,10,ok,
+2018,7,2018 — FORMULA 1 GRAND PRIX HEINEKEN DU CANADA 2018,fastf1,20,10,ok,
+2018,8,2018 — FORMULA 1 PIRELLI GRAND PRIX DE FRANCE 2018,fastf1,20,10,ok,
+2018,9,2018 — FORMULA 1 EYETIME GROSSER PREIS VON ÖSTERREICH 2018,fastf1,20,10,ok,
+2018,10,2018 — FORMULA 1 2018 ROLEX BRITISH GRAND PRIX,fastf1,20,10,ok,
+2018,11,2018 — FORMULA 1 EMIRATES GROSSER PREIS VON DEUTSCHLAND 2018,fastf1,20,10,ok,
+2018,12,2018 — FORMULA 1 ROLEX MAGYAR NAGYDÍJ 2018,fastf1,20,10,ok,
+2018,13,2018 — FORMULA 1 2018 JOHNNIE WALKER BELGIAN GRAND PRIX,fastf1,20,10,ok,
+2018,14,2018 — FORMULA 1 GRAN PREMIO HEINEKEN D'ITALIA 2018,fastf1,20,10,ok,
+2018,15,2018 — FORMULA 1 2018 SINGAPORE AIRLINES SINGAPORE GRAND PRIX,fastf1,20,10,ok,
+2018,16,2018 — FORMULA 1 2018 VTB RUSSIAN GRAND PRIX,fastf1,20,10,ok,
+2018,17,2018 — FORMULA 1 2018 HONDA JAPANESE GRAND PRIX,fastf1,20,10,ok,
+2018,18,2018 — FORMULA 1 PIRELLI 2018 UNITED STATES GRAND PRIX,fastf1,20,10,ok,
+2018,19,2018 — FORMULA 1 GRAN PREMIO DE MÉXICO 2018,fastf1,20,10,ok,
+2018,20,2018 — FORMULA 1 GRANDE PRÊMIO HEINEKEN DO BRASIL 2018,fastf1,20,10,ok,
+2018,21,2018 — FORMULA 1 2018 ETIHAD AIRWAYS ABU DHABI GRAND PRIX,fastf1,20,10,ok,
+2017,1,2017 — Australian Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/1/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,1,2017 — Australian Grand Prix,ergast_csv,3,2,ok,offline_csv
+2017,1,2017 — Australian Grand Prix,ergast_csv,3,2,ok,
+2017,2,2017 — Chinese Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/2/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,2,2017 — Chinese Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,2,2017 — Chinese Grand Prix,none,0,0,no_results,
+2017,3,2017 — Bahrain Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/3/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,3,2017 — Bahrain Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,3,2017 — Bahrain Grand Prix,none,0,0,no_results,
+2017,4,2017 — Russian Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/4/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,4,2017 — Russian Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,4,2017 — Russian Grand Prix,none,0,0,no_results,
+2017,5,2017 — Spanish Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/5/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,5,2017 — Spanish Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,5,2017 — Spanish Grand Prix,none,0,0,no_results,
+2017,6,2017 — Monaco Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/6/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,6,2017 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,6,2017 — Monaco Grand Prix,none,0,0,no_results,
+2017,7,2017 — Canadian Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/7/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,7,2017 — Canadian Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,7,2017 — Canadian Grand Prix,none,0,0,no_results,
+2017,8,2017 — Azerbaijan Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/8/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,8,2017 — Azerbaijan Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,8,2017 — Azerbaijan Grand Prix,none,0,0,no_results,
+2017,9,2017 — Austrian Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/9/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,9,2017 — Austrian Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,9,2017 — Austrian Grand Prix,none,0,0,no_results,
+2017,10,2017 — British Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/10/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,10,2017 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,10,2017 — British Grand Prix,none,0,0,no_results,
+2017,11,2017 — Hungarian Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/11/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,11,2017 — Hungarian Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,11,2017 — Hungarian Grand Prix,none,0,0,no_results,
+2017,12,2017 — Belgian Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/12/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,12,2017 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,12,2017 — Belgian Grand Prix,none,0,0,no_results,
+2017,13,2017 — Italian Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/13/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,13,2017 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,13,2017 — Italian Grand Prix,none,0,0,no_results,
+2017,14,2017 — Singapore Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/14/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,14,2017 — Singapore Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,14,2017 — Singapore Grand Prix,none,0,0,no_results,
+2017,15,2017 — Malaysian Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/15/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,15,2017 — Malaysian Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,15,2017 — Malaysian Grand Prix,none,0,0,no_results,
+2017,16,2017 — Japanese Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/16/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,16,2017 — Japanese Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,16,2017 — Japanese Grand Prix,none,0,0,no_results,
+2017,17,2017 — United States Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/17/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,17,2017 — United States Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,17,2017 — United States Grand Prix,none,0,0,no_results,
+2017,18,2017 — Mexican Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/18/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,18,2017 — Mexican Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,18,2017 — Mexican Grand Prix,none,0,0,no_results,
+2017,19,2017 — Brazilian Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/19/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,19,2017 — Brazilian Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,19,2017 — Brazilian Grand Prix,none,0,0,no_results,
+2017,20,2017 — Abu Dhabi Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/20/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
+2017,20,2017 — Abu Dhabi Grand Prix,ergast,0,0,no_results,ergast_empty
+2017,20,2017 — Abu Dhabi Grand Prix,none,0,0,no_results,

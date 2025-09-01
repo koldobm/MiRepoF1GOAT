@@ -1,6 +1,6 @@
 import json, os, sys, urllib.request
 
-_JOLPICA_DEFAULT = "http://api.jolpi.ca/ergast"
+_JOLPICA_DEFAULT = "https://ergast.jolpi.ca/api"
 _printed_base = False
 
 def _env_bool(name: str, default: bool=False) -> bool:
@@ -43,8 +43,10 @@ def ergast_json(path: str):
     if os.getenv("F1GOAT_BLOCK_ERGAST","").lower() in ("1","true","yes") and "ergast.com" in base:
         raise RuntimeError("F1GOAT_BLOCK_ERGAST=1: bloqueado acceso a ergast.com")
 
-    path = path.lstrip("/")
-    url = f"{base}/{path}"
+    p = path.lstrip("/")
+    if p.startswith("api/"):
+        p = p[4:]
+    url = f"{base}/{p}"
     try:
         return _http_json(url)
     except Exception as e1:

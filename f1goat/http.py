@@ -81,7 +81,7 @@ def _http_json_no_redirect(url: str, timeout: float=15.0):
         # Propagamos para que ergast_json maneje 301/302
         raise he
 
-def def ergast_json(path: str):
+def ergast_json(path: str):
     base = os.getenv("F1GOAT_ERGAST_BASE", _JOLPICA_DEFAULT).rstrip("/")
     _print_once_base(base)
     if _env_bool("F1GOAT_BLOCK_ERGAST", False) and ("ergast.com" in base):

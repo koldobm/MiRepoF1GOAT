@@ -3370,3 +3370,369 @@ season,round,official,source,drivers,teams,status,message
 2017,20,2017 — Abu Dhabi Grand Prix,ergast,0,0,error,HTTP fail for https://ergast.jolpi.ca/api/2017/20/results.json?limit=200: <urlopen error [Errno -2] Name or service not known>
 2017,20,2017 — Abu Dhabi Grand Prix,ergast,0,0,no_results,ergast_empty
 2017,20,2017 — Abu Dhabi Grand Prix,none,0,0,no_results,
+2025,24,2025 — FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX 2025 ,ergast,0,0,error,HTTP fail for http://ergast.com/api/f1/2025/24/results.json?limit=200: <urlopen error [Errno 111] Connection refused>
+2025,24,2025 — FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX 2025 ,auto,0,0,no_results,no_source_available
+2025,23,2025 — FORMULA 1 QATAR AIRWAYS QATAR GRAND PRIX 2025,ergast,0,0,error,HTTP fail for http://ergast.com/api/f1/2025/23/results.json?limit=200: <urlopen error [Errno 111] Connection refused>
+2025,23,2025 — FORMULA 1 QATAR AIRWAYS QATAR GRAND PRIX 2025,auto,0,0,no_results,no_source_available
+2025,22,2025 — FORMULA 1 HEINEKEN LAS VEGAS GRAND PRIX 2025,ergast,0,0,error,HTTP fail for http://ergast.com/api/f1/2025/22/results.json?limit=200: <urlopen error [Errno 111] Connection refused>
+2025,22,2025 — FORMULA 1 HEINEKEN LAS VEGAS GRAND PRIX 2025,auto,0,0,no_results,no_source_available
+2025,21,2025 — FORMULA 1 MSC CRUISES GRANDE PRÊMIO DE SÃO PAULO 2025,ergast,0,0,error,HTTP fail for http://ergast.com/api/f1/2025/21/results.json?limit=200: <urlopen error [Errno 111] Connection refused>
+2025,21,2025 — FORMULA 1 MSC CRUISES GRANDE PRÊMIO DE SÃO PAULO 2025,auto,0,0,no_results,no_source_available
+2025,20,2025 — FORMULA 1 GRAN PREMIO DE LA CIUDAD DE MÉXICO 2025,ergast,0,0,error,HTTP fail for http://ergast.com/api/f1/2025/20/results.json?limit=200: <urlopen error [Errno 111] Connection refused>
+2025,20,2025 — FORMULA 1 GRAN PREMIO DE LA CIUDAD DE MÉXICO 2025,auto,0,0,no_results,no_source_available
+2025,19,2025 — FORMULA 1 MSC CRUISES UNITED STATES GRAND PRIX 2025,ergast,0,0,error,HTTP fail for http://ergast.com/api/f1/2025/19/results.json?limit=200: <urlopen error [Errno 111] Connection refused>
+2025,19,2025 — FORMULA 1 MSC CRUISES UNITED STATES GRAND PRIX 2025,auto,0,0,no_results,no_source_available
+2025,18,2025 — FORMULA 1 SINGAPORE AIRLINES SINGAPORE GRAND PRIX 2025,ergast,0,0,error,HTTP fail for http://ergast.com/api/f1/2025/18/results.json?limit=200: <urlopen error [Errno 111] Connection refused>
+2025,18,2025 — FORMULA 1 SINGAPORE AIRLINES SINGAPORE GRAND PRIX 2025,auto,0,0,no_results,no_source_available
+2025,17,2025 — FORMULA 1 QATAR AIRWAYS AZERBAIJAN GRAND PRIX 2025,ergast,0,0,error,HTTP fail for http://ergast.com/api/f1/2025/17/results.json?limit=200: <urlopen error [Errno 111] Connection refused>
+2025,17,2025 — FORMULA 1 QATAR AIRWAYS AZERBAIJAN GRAND PRIX 2025,auto,0,0,no_results,no_source_available
+2025,16,2025 — FORMULA 1 PIRELLI GRAN PREMIO D’ITALIA 2025,ergast,0,0,error,HTTP fail for http://ergast.com/api/f1/2025/16/results.json?limit=200: <urlopen error [Errno 111] Connection refused>
+2025,16,2025 — FORMULA 1 PIRELLI GRAN PREMIO D’ITALIA 2025,auto,0,0,no_results,no_source_available
+1950,1,1950 — British Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1950/1/results.json?limit=200: HTTP Error 404: Not Found
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1950/2/results.json?limit=200: HTTP Error 404: Not Found
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1950/3/results.json?limit=200: HTTP Error 404: Not Found
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1950/4/results.json?limit=200: HTTP Error 404: Not Found
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1950/5/results.json?limit=200: HTTP Error 404: Not Found
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1950/6/results.json?limit=200: HTTP Error 404: Not Found
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1950/7/results.json?limit=200: HTTP Error 404: Not Found
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,
+1951,1,1951 — Swiss Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1951/1/results.json?limit=200: HTTP Error 404: Not Found
+1951,1,1951 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,1,1951 — Swiss Grand Prix,none,0,0,no_results,
+1951,2,1951 — Indianapolis 500,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1951/2/results.json?limit=200: HTTP Error 404: Not Found
+1951,2,1951 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1951,2,1951 — Indianapolis 500,none,0,0,no_results,
+1951,3,1951 — Belgian Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1951/3/results.json?limit=200: HTTP Error 404: Not Found
+1951,3,1951 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,3,1951 — Belgian Grand Prix,none,0,0,no_results,
+1951,4,1951 — French Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1951/4/results.json?limit=200: HTTP Error 404: Not Found
+1951,4,1951 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,4,1951 — French Grand Prix,none,0,0,no_results,
+1951,5,1951 — British Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1951/5/results.json?limit=200: HTTP Error 404: Not Found
+1951,5,1951 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,5,1951 — British Grand Prix,none,0,0,no_results,
+1951,6,1951 — German Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1951/6/results.json?limit=200: HTTP Error 404: Not Found
+1951,6,1951 — German Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,6,1951 — German Grand Prix,none,0,0,no_results,
+1951,7,1951 — Italian Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1951/7/results.json?limit=200: HTTP Error 404: Not Found
+1951,7,1951 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,7,1951 — Italian Grand Prix,none,0,0,no_results,
+1951,8,1951 — Spanish Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1951/8/results.json?limit=200: HTTP Error 404: Not Found
+1951,8,1951 — Spanish Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,8,1951 — Spanish Grand Prix,none,0,0,no_results,
+1952,1,1952 — Swiss Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1952/1/results.json?limit=200: HTTP Error 404: Not Found
+1952,1,1952 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,1,1952 — Swiss Grand Prix,none,0,0,no_results,
+1952,2,1952 — Indianapolis 500,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1952/2/results.json?limit=200: HTTP Error 404: Not Found
+1952,2,1952 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1952,2,1952 — Indianapolis 500,none,0,0,no_results,
+1952,3,1952 — Belgian Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1952/3/results.json?limit=200: HTTP Error 404: Not Found
+1952,3,1952 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,3,1952 — Belgian Grand Prix,none,0,0,no_results,
+1952,4,1952 — French Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1952/4/results.json?limit=200: HTTP Error 404: Not Found
+1952,4,1952 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,4,1952 — French Grand Prix,none,0,0,no_results,
+1952,5,1952 — British Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1952/5/results.json?limit=200: HTTP Error 404: Not Found
+1952,5,1952 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,5,1952 — British Grand Prix,none,0,0,no_results,
+1952,6,1952 — German Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1952/6/results.json?limit=200: HTTP Error 404: Not Found
+1952,6,1952 — German Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,6,1952 — German Grand Prix,none,0,0,no_results,
+1952,7,1952 — Dutch Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1952/7/results.json?limit=200: HTTP Error 404: Not Found
+1952,7,1952 — Dutch Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,7,1952 — Dutch Grand Prix,none,0,0,no_results,
+1952,8,1952 — Italian Grand Prix,ergast,0,0,error,HTTP fail for https://api.jolpi.ca/ergast/1952/8/results.json?limit=200: HTTP Error 404: Not Found
+1952,8,1952 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,8,1952 — Italian Grand Prix,none,0,0,no_results,
+1950,1,1950 — British Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,
+1951,1,1951 — Swiss Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1951,1,1951 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,1,1951 — Swiss Grand Prix,none,0,0,no_results,
+1951,2,1951 — Indianapolis 500,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1951,2,1951 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1951,2,1951 — Indianapolis 500,none,0,0,no_results,
+1951,3,1951 — Belgian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1951,3,1951 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,3,1951 — Belgian Grand Prix,none,0,0,no_results,
+1951,4,1951 — French Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1951,4,1951 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,4,1951 — French Grand Prix,none,0,0,no_results,
+1951,5,1951 — British Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1951,5,1951 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,5,1951 — British Grand Prix,none,0,0,no_results,
+1951,6,1951 — German Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1951,6,1951 — German Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,6,1951 — German Grand Prix,none,0,0,no_results,
+1951,7,1951 — Italian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1951,7,1951 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,7,1951 — Italian Grand Prix,none,0,0,no_results,
+1951,8,1951 — Spanish Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1951,8,1951 — Spanish Grand Prix,ergast,0,0,no_results,ergast_empty
+1951,8,1951 — Spanish Grand Prix,none,0,0,no_results,
+1952,1,1952 — Swiss Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1952,1,1952 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,1,1952 — Swiss Grand Prix,none,0,0,no_results,
+1952,2,1952 — Indianapolis 500,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1952,2,1952 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1952,2,1952 — Indianapolis 500,none,0,0,no_results,
+1952,3,1952 — Belgian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1952,3,1952 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,3,1952 — Belgian Grand Prix,none,0,0,no_results,
+1952,4,1952 — French Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1952,4,1952 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,4,1952 — French Grand Prix,none,0,0,no_results,
+1952,5,1952 — British Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1952,5,1952 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,5,1952 — British Grand Prix,none,0,0,no_results,
+1952,6,1952 — German Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1952,6,1952 — German Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,6,1952 — German Grand Prix,none,0,0,no_results,
+1952,7,1952 — Dutch Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1952,7,1952 — Dutch Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,7,1952 — Dutch Grand Prix,none,0,0,no_results,
+1952,8,1952 — Italian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1952,8,1952 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1952,8,1952 — Italian Grand Prix,none,0,0,no_results,
+1950,1,1950 — British Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,
+1950,1,1950 — British Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,
+1950,1,1950 — British Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,
+1950,1,1950 — British Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,
+1950,1,1950 — British Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,
+1950,1,1950 — British Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,'tuple' object has no attribute 'empty'
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,
+1950,1,1950 — British Grand Prix,ergast,0,0,error,'Parrilla'
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,'Parrilla'
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,'Parrilla'
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,'Parrilla'
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,'Parrilla'
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,'Parrilla'
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,'Parrilla'
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,
+1950,1,1950 — British Grand Prix,ergast,0,0,error,'Parrilla'
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,'Parrilla'
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,'Parrilla'
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,'Parrilla'
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,'Parrilla'
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,'Parrilla'
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,'Parrilla'
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,
+1950,1,1950 — British Grand Prix,ergast,0,0,error,'Parrilla'
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,'Parrilla'
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,'Parrilla'
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,'Parrilla'
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,'Parrilla'
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,'Parrilla'
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,'Parrilla'
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,
+1950,1,1950 — British Grand Prix,ergast,0,0,error,'Parrilla'
+1950,1,1950 — British Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,1,1950 — British Grand Prix,none,0,0,no_results,
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,error,'Parrilla'
+1950,2,1950 — Monaco Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,2,1950 — Monaco Grand Prix,none,0,0,no_results,
+1950,3,1950 — Indianapolis 500,ergast,0,0,error,'Parrilla'
+1950,3,1950 — Indianapolis 500,ergast,0,0,no_results,ergast_empty
+1950,3,1950 — Indianapolis 500,none,0,0,no_results,
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,error,'Parrilla'
+1950,4,1950 — Swiss Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,4,1950 — Swiss Grand Prix,none,0,0,no_results,
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,error,'Parrilla'
+1950,5,1950 — Belgian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,5,1950 — Belgian Grand Prix,none,0,0,no_results,
+1950,6,1950 — French Grand Prix,ergast,0,0,error,'Parrilla'
+1950,6,1950 — French Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,6,1950 — French Grand Prix,none,0,0,no_results,
+1950,7,1950 — Italian Grand Prix,ergast,0,0,error,'Parrilla'
+1950,7,1950 — Italian Grand Prix,ergast,0,0,no_results,ergast_empty
+1950,7,1950 — Italian Grand Prix,none,0,0,no_results,

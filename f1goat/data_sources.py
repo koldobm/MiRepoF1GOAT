@@ -324,3 +324,206 @@ def _http_json_get(url: str, timeout: float=15.0):
     req = urllib.request.Request(url, headers={"User-Agent":"F1GOAT/1.0","Accept":"application/json"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return json.loads(r.read().decode("utf-8","replace"))
+
+# <<< JOLPICA RESULTS OVERRIDE >>>
+def _ergast_results_by_round(season: int, rnd: int):
+    """Resultados (pilotos/equipos) desde Jolpica-F1 (Ergast-compatible)."""
+    from .http import ergast_json
+    import pandas as pd
+
+    data = ergast_json(f"f1/{season}/{rnd}/results.json?limit=200")
+    races = (data or {}).get("MRData", {}).get("RaceTable", {}).get("Races", [])
+    if not races:
+        return (pd.DataFrame(), pd.DataFrame())
+
+    rows = []
+    teams = {}
+    for race in races:
+        r_season = int(race.get("season") or season)
+        r_round  = int(race.get("round")  or rnd)
+        for res in race.get("Results", []) or []:
+            drv  = res.get("Driver") or {}
+            con  = res.get("Constructor") or {}
+            rows.append({
+                "season": r_season,
+                "round":  r_round,
+                "driverRef": drv.get("driverId") or drv.get("code") or drv.get("familyName"),
+                "constructorRef": con.get("constructorId"),
+                "grid": int(res.get("grid") or 0),
+                "position": int(res.get("position") or 0),
+                "status": res.get("status"),
+            })
+            cid = con.get("constructorId") or "unknown"
+            teams[cid] = {"season": r_season, "round": r_round, "constructorRef": cid}
+
+    df_dr = pd.DataFrame(rows)
+    df_tm = pd.DataFrame(list(teams.values()))
+    return (df_dr, df_tm)
+# >>> END JOLPICA RESULTS OVERRIDE
+
+# <<< JOLPICA ENABLE OVERRIDE >>>
+def _ergast_enabled() -> bool:
+    """Permite preferencia 'ergast' si la base NO es ergast.com.
+    Si F1GOAT_BLOCK_ERGAST=1, solo bloquea cuando la base apunta a ergast.com;
+    NO bloquea api.jolpi.ca (Jolpica-F1)."""
+    import os
+    val = os.getenv("F1GOAT_BLOCK_ERGAST","0").lower()
+    if val in ("1","true","yes"):
+        base = os.getenv("F1GOAT_ERGAST_BASE","https://api.jolpi.ca/ergast")
+        return "ergast.com" not in base
+    return True
+# >>> END JOLPICA ENABLE OVERRIDE
+# <<< JOLPICA HTTP GET OVERRIDE >>>
+def _http_json_get(url: str, timeout: float=15.0):
+    """
+    Compatibilidad: reescribe URLs 'tipo Ergast' (con o sin '/f1/') para pasar
+    por ergast_json() apuntando a la base F1GOAT_ERGAST_BASE (Jolpica).
+    Si no es Ergast-like, usa urllib como fallback.
+    """
+    try:
+        from urllib.parse import urlparse
+        u = urlparse(url)
+        netloc = (u.netloc or "").lower()
+        path   = (u.path or "").lstrip("/")
+        query  = (u.query or "")
+        if "ergast" in netloc:
+            # Asegurar prefijo 'f1/' en la ruta relativa consumida por ergast_json
+            if "f1/" in path:
+                # ej: 'api/f1/1950/1/results.json' -> 'f1/1950/1/results.json'
+                tail = path.split("f1/", 1)[1]
+                rel  = "f1/" + tail
+            else:
+                # ej: '1950/1/results.json' -> 'f1/1950/1/results.json'
+                rel = "f1/" + path if path else "f1"
+            if query:
+                rel = f"{rel}?{query}"
+            from .http import ergast_json
+            return ergast_json(rel)
+    except Exception:
+        # caemos al fallback genérico
+        pass
+    # Fallback genérico
+    import urllib.request, json
+    req = urllib.request.Request(url, headers={"User-Agent":"F1GOAT/1.0","Accept":"application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read().decode("utf-8","replace"))
+# >>> END JOLPICA HTTP GET OVERRIDE
+# <<< JOLPICA RESULTS WRAPPER (std cols + debug) >>>
+import os as _os, sys as _sys
+def _jlp_dbg(msg: str):
+    if _os.getenv("F1GOAT_DEBUG_JOLPICA", "").lower() in ("1","true","yes"):
+        print(f"[F1GOAT][JOLPICA] {msg}", file=_sys.stderr)
+
+# Guardamos la versión previa (la que ya llama a ergast_json)
+__jlp__orig_ergast_results_by_round = _ergast_results_by_round
+
+def _ergast_results_by_round(season: int, rnd: int):
+    """Wrapper: llama al override Jolpica y estandariza columnas esperadas por el pipeline."""
+    df_dr, df_tm = __jlp__orig_ergast_results_by_round(season, rnd)
+    # Estandariza columnas para el pipeline (driver/constructor)
+    if hasattr(df_dr, "empty") and not df_dr.empty:
+        if "driver" not in df_dr.columns and "driverRef" in df_dr.columns:
+            df_dr["driver"] = df_dr["driverRef"]
+        if "constructor" not in df_dr.columns and "constructorRef" in df_dr.columns:
+            df_dr["constructor"] = df_dr["constructorRef"]
+    if hasattr(df_tm, "empty") and not df_tm.empty:
+        if "constructor" not in df_tm.columns and "constructorRef" in df_tm.columns:
+            df_tm["constructor"] = df_tm["constructorRef"]
+
+    _jlp_dbg(f"results_by_round season={season} round={rnd} -> drivers={0 if df_dr is None else len(df_dr)} teams={0 if df_tm is None else len(df_tm)}")
+    return df_dr, df_tm
+
+# Alias por compatibilidad (por si el pipeline usa nombres alternativos)
+ergast_results_by_round = _ergast_results_by_round
+ergast_results = _ergast_results_by_round
+# >>> END JOLPICA RESULTS WRAPPER
+# <<< JOLPICA RESULTS WRAPPER v2 (normalize finish/team + dtypes) >>>
+def _ergast_results_by_round(season: int, rnd: int):
+    # usamos la versión original que ya llama a Jolpica
+    df_dr, df_tm = __jlp__orig_ergast_results_by_round(season, rnd)
+    import pandas as pd
+
+    # Drivers
+    if hasattr(df_dr, "empty") and not df_dr.empty:
+        # asegurar driver
+        if "driver" not in df_dr.columns:
+            if "driverRef" in df_dr.columns:
+                df_dr["driver"] = df_dr["driverRef"]
+        # asegurar team
+        if "team" not in df_dr.columns:
+            if "constructor" in df_dr.columns:
+                df_dr["team"] = df_dr["constructor"]
+            elif "constructorRef" in df_dr.columns:
+                df_dr["team"] = df_dr["constructorRef"]
+        # asegurar finish desde position
+        if "finish" not in df_dr.columns and "position" in df_dr.columns:
+            df_dr["finish"] = pd.to_numeric(df_dr["position"], errors="coerce").fillna(0).astype(int)
+        # tipos enteros requeridos
+        for c in ("grid", "finish"):
+            if c in df_dr.columns:
+                df_dr[c] = pd.to_numeric(df_dr[c], errors="coerce").fillna(0).astype(int)
+
+    # Teams
+    if hasattr(df_tm, "empty") and not df_tm.empty:
+        if "team" not in df_tm.columns:
+            if "constructor" in df_tm.columns:
+                df_tm["team"] = df_tm["constructor"]
+            elif "constructorRef" in df_tm.columns:
+                df_tm["team"] = df_tm["constructorRef"]
+
+    _jlp_dbg(f"normalized: season={season} round={rnd} -> "
+             f"drivers={0 if df_dr is None else len(df_dr)} "
+             f"teams={0 if df_tm is None else len(df_tm)} "
+             f"cols_dr={[] if df_dr is None else list(df_dr.columns)[:10]}")
+    return df_dr, df_tm
+
+# refrescar alias
+ergast_results_by_round = _ergast_results_by_round
+ergast_results = _ergast_results_by_round
+# >>> END JOLPICA RESULTS WRAPPER v2
+# <<< JOLPICA RESULTS OVERRIDE v3 (retorno tipo Ergast: Piloto/Equipo/Salida/Final/Status) >>>
+def _ergast_results_by_round(season: int, rnd: int) -> pd.DataFrame:
+    """
+    Devuelve un DataFrame de resultados de pilotos con las columnas esperadas por
+    _compute_from_driver_df y upsert_*: Piloto, Equipo, Salida, Final, Status.
+    Fuente: Jolpica-F1 (Ergast-compatible) vía ergast_json().
+    """
+    data = ergast_json(f"f1/{season}/{rnd}/results.json?limit=200")
+    races = (data or {}).get("MRData", {}).get("RaceTable", {}).get("Races", [])
+    if not races:
+        return pd.DataFrame()
+
+    rows = []
+    res = races[0].get("Results", []) or []
+    for r in res:
+        drv  = r.get("Driver") or {}
+        cons = r.get("Constructor") or {}
+
+        piloto = canonical_driver_from_ergast(
+            drv.get("givenName",""),
+            drv.get("familyName",""),
+            drv.get("code"),
+        )
+        equipo = canonical_team(cons.get("name") or "")
+
+        grid = r.get("grid")
+        pos  = r.get("position")
+        try:
+            grid = int(grid) if grid not in (None, "", "0") else None
+        except Exception:
+            grid = None
+        try:
+            pos = int(pos) if pos not in (None, "", "0") else None
+        except Exception:
+            pos = None
+
+        rows.append({
+            "Piloto": piloto,
+            "Equipo": equipo,
+            "Salida": grid,
+            "Final":  pos,
+            "Status": r.get("status"),
+        })
+
+    return pd.DataFrame(rows)
+# >>> END JOLPICA RESULTS OVERRIDE v3

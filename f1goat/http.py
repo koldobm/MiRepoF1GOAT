@@ -1,4 +1,4 @@
-import json, os, sys, urllib.request
+import json, os, sys, urllib.request, urllib.error, urllib.parse
 
 _JOLPICA_DEFAULT = "https://ergast.jolpi.ca/api"
 _printed_base = False
@@ -30,6 +30,22 @@ def _http_json(url: str, timeout: float=15.0):
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return json.loads(r.read().decode("utf-8","replace"))
 
+
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+def _http_json_no_redirect(url: str, timeout: float=15.0):
+    opener = urllib.request.build_opener(_NoRedirect)
+    req = urllib.request.Request(url, headers={"User-Agent":"F1GOAT/1.0 (+local)","Accept":"application/json"})
+    try:
+        with opener.open(req, timeout=timeout) as r:
+            data = r.read().decode("utf-8","replace")
+            return json.loads(data)
+    except urllib.error.HTTPError as he:
+        # Propagamos para que ergast_json maneje 301/302
+        raise he
+
 def ergast_json(path: str):
     """
     Descarga JSON de una ruta Ergast-compatible usando una base configurable.
@@ -57,3 +73,19 @@ def ergast_json(path: str):
             except Exception as e2:
                 raise RuntimeError(f"HTTP fail for {url} and {alt}: {e1} // {e2}")
         raise RuntimeError(f"HTTP fail for {url}: {e1}")
+
+def _rewrite_to_api_jolpi(location: str) -> str:
+    try:
+        u = urllib.parse.urlparse(location)
+        path = u.path or ""
+        qs = ("?"+u.query) if u.query else ""
+        # normaliza /api/xxx → /ergast/xxx
+        if "/api/" in path:
+            path = path.split("/api/",1)[1]
+        path = path.lstrip("/")
+        return f"http://api.jolpi.ca/ergast/{path}{qs}"
+    except Exception:
+        loc = location
+        if loc.startswith("/api/"):
+            loc = loc[5:]
+        return "http://api.jolpi.ca/ergast/" + loc.lstrip("/")

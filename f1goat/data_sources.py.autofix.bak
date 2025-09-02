@@ -17,59 +17,6 @@ ff1.Cache.enable_cache(Path("data/fastf1_cache"))
 
 ERGAST_BASE = os.getenv("F1GOAT_ERGAST_BASE", "http://ergast.com/api/f1/").rstrip("/") + "/"
 ERGAST_CSV  = os.getenv("F1GOAT_ERGAST_CSV", "").strip()
-CANON_DRIVER_RESULT_COLS = ['Piloto','Equipo','Parrilla','Final','Status']
-
-def _normalize_driver_df_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Normaliza sinónimos (case-insensitive) al esquema CANON:
-    ['Piloto','Equipo','Parrilla','Final','Status'].
-    - 'Salida'|'Grid'|'grid'|'grid_position' -> 'Parrilla'
-    - 'Final'|'Position'|'position'|'Pos'    -> 'Final'
-    - 'Driver'|'driver'                      -> 'Piloto'
-    - 'Constructor'|'Team'|'team'            -> 'Equipo'
-    - 'status'|'statusText'                  -> 'Status'
-    Convierte 'Parrilla' y 'Final' a enteros (nullable); limpia strings.
-    """
-    import pandas as pd
-    if df is None:
-        return pd.DataFrame(columns=CANON_DRIVER_RESULT_COLS)
-    cols = list(df.columns)
-    low_map = {c.lower(): c for c in cols}
-    synonyms = {
-        'Piloto':   {'piloto','driver'},
-        'Equipo':   {'equipo','constructor','team'},
-        'Parrilla': {'parrilla','salida','grid','grid_position'},
-        'Final':    {'final','position','pos'},
-        'Status':   {'status','statustext'},
-    }
-    rename = {}
-    have = {c.lower() for c in cols}
-    for canon in CANON_DRIVER_RESULT_COLS:
-        lc = canon.lower()
-        if lc in have:  # ya la tenemos
-            continue
-        for alt in synonyms[canon]:
-            if alt in low_map:
-                rename[low_map[alt]] = canon
-                break
-    if rename:
-        df = df.rename(columns=rename)
-    missing = [c for c in CANON_DRIVER_RESULT_COLS if c not in df.columns]
-    if missing:
-        raise ValueError(f"Faltan columnas: {missing} (presentes={list(df.columns)})")
-    for c in ("Parrilla","Final"):
-        df[c] = pd.to_numeric(df[c], errors="coerce").astype("Int64")
-    for c in ("Piloto","Equipo","Status"):
-        s = df[c]
-        s = s.where(~s.isna(), None).astype("string")
-        df[c] = s
-    df = df[CANON_DRIVER_RESULT_COLS]
-    try:
-        print(f"[F1GOAT] Normalized -> CANON: {list(df.columns)} (n={len(df)})")
-    except Exception:
-        pass
-    return df
-
 
 def _team_ops(team:str) -> float: return 8.0
 def _team_rel(team:str) -> float: return 8.0
@@ -114,7 +61,7 @@ def _http_json(url: str, retries: int = 3) -> dict:
     raise RuntimeError(f"HTTP fail for {url}: {last_exc}")
 
 # ---------- Ergast online ----------
-def _ergast_results_by_round__dead1(season:int, rnd:int) -> pd.DataFrame:
+def _ergast_results_by_round(season:int, rnd:int) -> pd.DataFrame:
     url = f"{ERGAST_BASE}{season}/{rnd}/results.json?limit=200"
     data = _http_json(url)
     races = data.get("MRData", {}).get("RaceTable", {}).get("Races", [])
@@ -187,7 +134,6 @@ def _log_ingest(season:int, rnd:int, official:str, source:str, n_dr:int, n_tm:in
 
 # ---------- Post-proceso (puntos) ----------
 def _compute_from_driver_df(dr: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    dr = _normalize_driver_df_columns(dr)
     rows = []
     for _, r in dr.iterrows():
         grid = r["Parrilla"]; final = r["Final"]
@@ -537,29 +483,47 @@ ergast_results = _ergast_results_by_round
 # >>> END JOLPICA RESULTS WRAPPER v2
 # <<< JOLPICA RESULTS OVERRIDE v3 (retorno tipo Ergast: Piloto/Equipo/Salida/Final/Status) >>>
 def _ergast_results_by_round(season: int, rnd: int) -> pd.DataFrame:
-    """SINGLE SOURCE OF TRUTH — Jolpica (Ergast-compatible) -> DF canónico."""
+    """
+    Devuelve un DataFrame de resultados de pilotos con las columnas esperadas por
+    _compute_from_driver_df y upsert_*: Piloto, Equipo, Salida, Final, Status.
+    Fuente: Jolpica-F1 (Ergast-compatible) vía ergast_json().
+    """
     data = ergast_json(f"f1/{season}/{rnd}/results.json?limit=200")
     races = (data or {}).get("MRData", {}).get("RaceTable", {}).get("Races", [])
     if not races:
-        import pandas as pd
-        return pd.DataFrame(columns=CANON_DRIVER_RESULT_COLS)
-    res = races[0].get("Results", []) or []
+        return pd.DataFrame()
+
     rows = []
+    res = races[0].get("Results", []) or []
     for r in res:
         drv  = r.get("Driver") or {}
-        con  = r.get("Constructor") or {}
-        piloto = canonical_driver_from_ergast(drv.get("givenName",""), drv.get("familyName",""), drv.get("code"))
-        equipo = canonical_team(con.get("name") or "")
-        # construir directamente la columna CANÓNICA 'Parrilla' (no 'Salida')
+        cons = r.get("Constructor") or {}
+
+        piloto = canonical_driver_from_ergast(
+            drv.get("givenName",""),
+            drv.get("familyName",""),
+            drv.get("code"),
+        )
+        equipo = canonical_team(cons.get("name") or "")
+
+        grid = r.get("grid")
+        pos  = r.get("position")
         try:
-            grid = int(r.get("grid")) if r.get("grid") not in (None, "", "0") else None
+            grid = int(grid) if grid not in (None, "", "0") else None
         except Exception:
             grid = None
         try:
-            pos = int(r.get("position")) if r.get("position") not in (None, "", "0") else None
+            pos = int(pos) if pos not in (None, "", "0") else None
         except Exception:
             pos = None
-        rows.append({"Piloto":piloto, "Equipo":equipo, "Parrilla":grid, "Final":pos, "Status":r.get("status")})
-    import pandas as pd
-    df = pd.DataFrame(rows)
-    return _normalize_driver_df_columns(df)
+
+        rows.append({
+            "Piloto": piloto,
+            "Equipo": equipo,
+            "Salida": grid,
+            "Final":  pos,
+            "Status": r.get("status"),
+        })
+
+    return pd.DataFrame(rows)
+# >>> END JOLPICA RESULTS OVERRIDE v3

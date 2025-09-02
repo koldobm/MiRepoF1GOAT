@@ -5,6 +5,7 @@ from typing import Tuple, Optional, Literal
 import os, time, json, urllib.request
 
 import pandas as pd
+from .http import ergast_json
 import fastf1 as ff1
 
 from .compute import compute_gp_points_f1goat, compute_csi
@@ -310,3 +311,16 @@ def ingest_latest(season_hint:int=2025) -> Tuple[int,int,str]:
             except Exception:
                 continue
     raise RuntimeError("No se pudo ingerir ningún GP.")
+
+def _http_json_get(url: str, timeout: float=15.0):
+    """Compat: si la URL es Ergast-compatible ('/f1/'), usa Jolpica; si no, urllib."""
+    try:
+        if '/f1/' in url:
+            path = 'f1/' + url.split('/f1/',1)[1]
+            return ergast_json(path)
+    except Exception:
+        pass
+    import urllib.request, json
+    req = urllib.request.Request(url, headers={"User-Agent":"F1GOAT/1.0","Accept":"application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read().decode("utf-8","replace"))

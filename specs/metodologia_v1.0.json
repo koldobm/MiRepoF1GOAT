@@ -1,0 +1,121 @@
+{
+  "version": "1.0",
+  "nomenclatura": [
+    "Piloto",
+    "Equipo",
+    "Parrilla",
+    "Final",
+    "Status"
+  ],
+  "era_methods": {
+    "moderna": {
+      "qpt_def": "gap% quali vs p50 del campo (mejor sesion valida)",
+      "rpt_def": "delta por vuelta en aire limpio; excluir SC/VSC/pits; mediana por stint ponderada por vueltas",
+      "combine": "CSI_z = alpha*Z(QPT) + beta*Z(RPT)",
+      "alpha": 0.55,
+      "beta": 0.45
+    },
+    "intermedia": {
+      "qpt_dominante": true,
+      "rpt_proxy": "mejor_vuelta_o_progresion_stints",
+      "regularizacion": "suavizado_temporal_mas_fuerte"
+    },
+    "clasica": {
+      "bt_rating": "Bradley-Terry por equipos con SOLO clasificados; DNF mecanico temprano no cuenta como derrota",
+      "qualy_percentil": true,
+      "combine": "CSI_z = gamma*Z(QualyPercentil) + (1-gamma)*Z(BT_rating)",
+      "gamma": 0.6
+    }
+  },
+  "csi_escalado": {
+    "lambda_objetivo": "elegir para que CSI* ~ [0.85,1.15] y media≈1.00 por GP",
+    "formula": "CSI_star = exp(lambda * CSI_z)"
+  },
+  "csi_to_0_5_constructores": {
+    "method": "A_normal_cdf_log",
+    "steps": [
+      "x_i = ln(CSI_star_i)",
+      "z_i = (x_i - median(x)) / max(MAD(x), 1e-6)",
+      "score_i = 5 * Phi(z_i)",
+      "si MAD=0 -> score_i = 2.5"
+    ],
+    "alternativas": [
+      "B_minmax_log_percentiles",
+      "C_rank_percentil"
+    ]
+  },
+  "pilotos": {
+    "componentes_core": {
+      "RR_max": 4.0,
+      "QR_max": 2.0,
+      "TD_max": 2.0,
+      "OQ_max": 1.5
+    },
+    "modulacion_csi": {
+      "aplica_a": [
+        "RR",
+        "QR",
+        "TD",
+        "OQ"
+      ],
+      "no_aplica_a": [
+        "WA",
+        "PF"
+      ],
+      "c": "CSI_star_equipo / media_GP(CSI_star)",
+      "alpha": 0.33,
+      "m_min": 0.85,
+      "m_max": 1.2,
+      "formula": "m(c) = clip(c^(-alpha), m_min, m_max)",
+      "incertidumbre_u": "m_eff = 1 + (m(c)-1)*u  (u in [0,1])"
+    },
+    "wa_pf_fuera_total": true,
+    "cap_gp": {
+      "formula": "cap = 10 * porcentaje_distancia",
+      "fallback_v1_0": "cap=10 si no hay L_plan ni D_plan; log explicito",
+      "caso_extremo": "si carrera 100% neutralizada -> cap=0"
+    },
+    "season_cap": 100
+  },
+  "overtakes": {
+    "proxy_gpc": [
+      "Clasificados = pilotos que terminan",
+      "R0 = parrilla entre clasificados",
+      "R1 = llegada entre clasificados",
+      "GPC = max(0, R0 - R1)"
+    ],
+    "con_oportunidades": "atenuar OQ por factor eta in [0.8,1.0] si mucha SC/VSC",
+    "con_expectativa": "GPC_resid = max(0, E[R] - R1)",
+    "ponderar_por_delta_csi": "opcional cuando existan eventos reales de adelantamiento"
+  },
+  "constructores": {
+    "partes": {
+      "CSI_star_0_5": true,
+      "Ops_0_2": true,
+      "Strat_0_2": true,
+      "Dev_0_1": true
+    },
+    "no_redistribuir_NA": true
+  },
+  "quality_u": {
+    "pesos": {
+      "quali": 0.3,
+      "race_laps_limpias": 0.4,
+      "race_solo_mejor_vuelta": 0.2,
+      "banderas_lluvia": 0.2,
+      "intra_equipo": 0.1
+    },
+    "nota": "truncar a [0,1]; u atenua m_eff y (opcional) peso de OQ"
+  },
+  "reglas_justicia": [
+    "WA y PF no suman ni restan al 0-10 del piloto; se muestran y rankean aparte",
+    "NA nunca redistribuye peso a otras metricas",
+    "CSI en pilotos solo modula; en equipos si puntua (0–5)"
+  ],
+  "logs_recomendados": [
+    "[F1GOAT] CSI: era=..., QPT=..., RPT=..., z=..., csi*=...",
+    "[F1GOAT] PilotCore: RR=.. QR=.. TD=.. OQ=.. m(c)=.. u=.. cap=.. total=..",
+    "[F1GOAT] WA/PF (no suman): WA=.. PF=..",
+    "[F1GOAT] CSI->0-5: method=A, x=ln(CSI*), MAD=..., score=..."
+  ]
+}

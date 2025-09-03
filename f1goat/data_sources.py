@@ -434,29 +434,52 @@ def _jlp_dbg(msg: str):
 
 # Guardamos la versión previa (la que ya llama a ergast_json)
 def _ergast_results_by_round(season: int, rnd: int) -> pd.DataFrame:
-    """SINGLE SOURCE OF TRUTH — Jolpica (Ergast-compatible) -> DF canónico."""
+    """SINGLE SOURCE OF TRUTH.
+    Extrae resultados (Ergast vía Jolpica), construye filas de pilotos y normaliza a CANON:
+    ['Piloto','Equipo','Parrilla','Final','Status'].
+    """
     data = ergast_json(f"f1/{season}/{rnd}/results.json?limit=200")
     races = (data or {}).get("MRData", {}).get("RaceTable", {}).get("Races", [])
     if not races:
-        import pandas as pd
-        return pd.DataFrame(columns=CANON_DRIVER_RESULT_COLS)
-    res = races[0].get("Results", []) or []
+        return pd.DataFrame(columns=['Piloto','Equipo','Parrilla','Final','Status'])
+
     rows = []
+    res = races[0].get("Results", []) or []
     for r in res:
         drv  = r.get("Driver") or {}
-        con  = r.get("Constructor") or {}
-        piloto = canonical_driver_from_ergast(drv.get("givenName",""), drv.get("familyName",""), drv.get("code"))
-        equipo = canonical_team(con.get("name") or "")
-        # construir directamente la columna CANÓNICA 'Parrilla' (no 'Salida')
+        cons = r.get("Constructor") or {}
+
+        piloto = canonical_driver_from_ergast(
+            drv.get("givenName",""),
+            drv.get("familyName",""),
+            drv.get("code"),
+        )
+        # Equipo crudo desde Ergast (evita rebrands anacrónicos)
+        equipo = (cons.get("name") or "").strip()
+
+        grid = r.get("grid")
+        pos  = r.get("position")
         try:
-            grid = int(r.get("grid")) if r.get("grid") not in (None, "", "0") else None
+            grid = int(grid) if grid not in (None, "", "0") else None
         except Exception:
             grid = None
         try:
-            pos = int(r.get("position")) if r.get("position") not in (None, "", "0") else None
+            pos = int(pos) if pos not in (None, "", "0") else None
         except Exception:
             pos = None
-        rows.append({"Piloto":piloto, "Equipo":equipo, "Parrilla":grid, "Final":pos, "Status":r.get("status")})
-    import pandas as pd
+
+        rows.append({
+            "Piloto": piloto,
+            "Equipo": equipo,
+            "Parrilla": grid,
+            "Final":  pos,
+            "Status": r.get("status"),
+        })
+
     df = pd.DataFrame(rows)
-    return _normalize_driver_df_columns(df)
+    try:
+        df = _normalize_driver_df_columns(df)
+    except Exception:
+        # Si faltara el normalizador por cualquier motivo, seguimos con DF ya en CANON.
+        pass
+    return df

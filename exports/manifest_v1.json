@@ -1,0 +1,19 @@
+{
+  "generated_at": "2025-09-04 00:05:34",
+  "spec_md": "docs/Metodologia_v1.0.md",
+  "spec_json": "specs/metodologia_v1.0.json",
+  "exports": [
+    "exports/Metodologia_v1.0.rendered.md",
+    "exports/historico_pilotos_v1.csv",
+    "exports/per_gp_core_for_ui.csv",
+    "exports/season_driver_points_100.csv",
+    "exports/season_team_points_100.csv"
+  ],
+  "spec_md_sha256": "e63c0ea5b910afe4467bca59332d785461552e8d02e70ddeb80fb0569dd394d5",
+  "spec_json_sha256": "76c08bce49b8a111f7628975f3696c2caef0390b0faf31cc9000d4e0e12bc5d2",
+  "Metodologia_v1.0.rendered.md_sha256": "79ecd5e774864429e411e9bf6b94ddb3923962c4c4defca24e508eb1e7d49340",
+  "historico_pilotos_v1.csv_sha256": "33e61f13ca1c01ab3a26f105384d7c6fdf55111c100526ea7a360a4d5390bb31",
+  "per_gp_core_for_ui.csv_sha256": "6841605bd8264e15d1ca85df190d9847511825587014a693500f3f3efdb00ddd",
+  "season_driver_points_100.csv_sha256": "a67cb61740886512621ea442b5b10a2b29793df442a13bf07c194b709b881efd",
+  "season_team_points_100.csv_sha256": "0d86a6aac12cd607a4afb95e3935602aa028cb6cabe07438418bc78dc9d1a8fb"
+}

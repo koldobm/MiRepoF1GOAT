@@ -68,3 +68,12 @@ u = 0.3*quali + 0.4*race_laps + 0.2*(banderas/lluvia) + 0.1*intra_equipo
 ## Reglas de justicia
 - NA no redistribuye; CSI en pilotos solo modula; en equipos sí puntúa.
 - SeasonCap=100 con GPs efectivos; cap por distancia por GP.
+
+## Overlays v1.1 (auditoría, no alteran el 0–10)
+Para analizar “mérito neto” por GP (quitando el baseline del propio GP y el efecto medio de coche/circuito), calculamos overlays centrados y robustos por componente:
+
+- **RR/QR/TD/OQ (centrados):** valor del componente − mediana del GP.
+- **Z~GP (robusto):** \`(valor − mediana_GP) / MAD_GP\` con MAD robusto; si MAD=0 ⇒ z=0.
+- **OQ (proxy GPC):** ganancia de posiciones entre clasificados (R0−R1, truncada a ≥0), escalada a [0,1.5] y luego centrada por GP.
+
+Estos overlays sirven para **auditoría/diagnóstico** (no cambian el 0–10 ni el SeasonCap=100). Permiten ver quién rinde por encima del baseline del evento componente a componente, y detectar outliers y posibles derivas.

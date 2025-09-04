@@ -45,5 +45,12 @@
   "per_gp_core_for_ui.csv": {
     "sha256": "d11d93385f5ab1358aee513527b8dd50547a1c91a90a59df7a0b2fa7794305a8",
     "rows": 25603
+  },
+  "overlays_v1_1": {
+    "exports/per_gp_rr_overlay_v1_1.csv": "e9b913f04947c5b203beb9254da80f9986af5dc75b0aebead5830a8714c805ed",
+    "exports/per_gp_qr_overlay_v1_1.csv": "3793f27a6465358a4773a9dc8b9656213cd547a9ab6cf2bac30dc2a42b7265c4",
+    "exports/per_gp_td_overlay_v1_1.csv": "0338458c412d5dbd9d339470a4d47c5eb9914c12dfd5dd5bd822b9a7f714f277",
+    "exports/per_gp_oq_overlay_v1_1.csv": "0035e1a0c9b6db90bb613cffcb97319381f4cde032b3e9963560e2097ffb171a",
+    "exports/per_gp_rr_resid_v1_1.csv": "e1badb99897272ceadb9a0dae2bbb88301297788bfbb978d234fd5c5ba78d5a2"
   }
 }

@@ -1,21 +1,4 @@
 {
-  "files": {
-    "docs/Metodologia_v1.0.md": "6d2cee1e185be7b564184ca33c561f1bf9dc0be614fea504e975f96a9bae239c",
-    "exports/Metodologia_v1.0.rendered.md": "79ecd5e774864429e411e9bf6b94ddb3923962c4c4defca24e508eb1e7d49340",
-    "exports/goat_board_v1.csv": "69aad468d8f415447cc2946c134255b152a95b142a2d32c7a8fc24152b21bc61",
-    "exports/historico_pilotos_v1.csv": "33e61f13ca1c01ab3a26f105384d7c6fdf55111c100526ea7a360a4d5390bb31",
-    "exports/per_gp_core_for_ui.csv": "d11d93385f5ab1358aee513527b8dd50547a1c91a90a59df7a0b2fa7794305a8",
-    "exports/per_gp_core_for_ui_legacy.csv": "967a381ff733c3409d6c416eea12919b3f5c00c32bc61ff0f827dcec8d582aab",
-    "exports/per_gp_core_with_quality.csv": "88eacea31f239df210e7a4f189784bfbeaecbb47e32b5c8dea64b563d43050be",
-    "exports/per_gp_oq_overlay_v1_1.csv": "0035e1a0c9b6db90bb613cffcb97319381f4cde032b3e9963560e2097ffb171a",
-    "exports/per_gp_qr_overlay_v1_1.csv": "3793f27a6465358a4773a9dc8b9656213cd547a9ab6cf2bac30dc2a42b7265c4",
-    "exports/per_gp_rr_overlay_v1_1.csv": "e9b913f04947c5b203beb9254da80f9986af5dc75b0aebead5830a8714c805ed",
-    "exports/per_gp_rr_resid_v1_1.csv": "e1badb99897272ceadb9a0dae2bbb88301297788bfbb978d234fd5c5ba78d5a2",
-    "exports/per_gp_td_overlay_v1_1.csv": "0338458c412d5dbd9d339470a4d47c5eb9914c12dfd5dd5bd822b9a7f714f277",
-    "exports/season_driver_points_100.csv": "a67cb61740886512621ea442b5b10a2b29793df442a13bf07c194b709b881efd",
-    "exports/season_driver_points_100_legacy.csv": "d9febe0517228d447f0f2757bf6229710c3f284298472be5ad410f94b1619317",
-    "exports/season_team_points_100.csv": "32372007fc7dc66e307d69b003cc7d1f0182aff74dee0212c22f921b388d3d58",
-    "exports/season_team_points_100_legacy.csv": "73e0a2a577f412aa70cf89cdc84ed7f68b662a1a7e31f1a09a7c80dedccc0614",
-    "specs/metodologia_v1.0.json": "76c08bce49b8a111f7628975f3696c2caef0390b0faf31cc9000d4e0e12bc5d2"
-  }
+  "version": "v1.0",
+  "files": {}
 }

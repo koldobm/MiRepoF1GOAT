@@ -15,5 +15,8 @@
   "historico_pilotos_v1.csv_sha256": "33e61f13ca1c01ab3a26f105384d7c6fdf55111c100526ea7a360a4d5390bb31",
   "per_gp_core_for_ui.csv_sha256": "6841605bd8264e15d1ca85df190d9847511825587014a693500f3f3efdb00ddd",
   "season_driver_points_100.csv_sha256": "a67cb61740886512621ea442b5b10a2b29793df442a13bf07c194b709b881efd",
-  "season_team_points_100.csv_sha256": "0d86a6aac12cd607a4afb95e3935602aa028cb6cabe07438418bc78dc9d1a8fb"
+  "season_team_points_100.csv_sha256": "0d86a6aac12cd607a4afb95e3935602aa028cb6cabe07438418bc78dc9d1a8fb",
+  "per_gp_core_with_quality.csv": {
+    "sha256": "88eacea31f239df210e7a4f189784bfbeaecbb47e32b5c8dea64b563d43050be"
+  }
 }

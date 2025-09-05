@@ -1,4 +1,11 @@
 {
-  "version": "v1.0",
-  "files": {}
+  "files": {
+    "exports/per_gp_core_for_ui.csv": "45bf8596a112959ef491be44d3f832beabe11705fc837d54ea05e30615028e0d",
+    "exports/season_driver_points_100.csv": "d53dfaabe06b8ee8f6b99dd043ec97b1def0dbc2b56ce463bcc73731dc5d9152",
+    "exports/season_team_points_100.csv": "87ee32e8fd02acfa3937255050fdbad53461abb851217c2770b5b081f4fb50f5",
+    "exports/goat_board_v1.csv": "e55f833220379a4d47be865f60f1f53bd2dc932a0ecdedc3299443f545b2a583",
+    "exports/Metodologia_v1.0.rendered.md": "79ecd5e774864429e411e9bf6b94ddb3923962c4c4defca24e508eb1e7d49340",
+    "docs/Metodologia_v1.0.md": "6d2cee1e185be7b564184ca33c561f1bf9dc0be614fea504e975f96a9bae239c",
+    "specs/metodologia_v1.0.json": "76c08bce49b8a111f7628975f3696c2caef0390b0faf31cc9000d4e0e12bc5d2"
+  }
 }
